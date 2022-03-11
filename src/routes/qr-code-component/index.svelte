@@ -1,5 +1,6 @@
 <svelte:head>
 	<link rel="icon" type="image/png" sizes="32x32" href="qr-code-component/favicon-32x32.png" />
+	<title>Frontend Mentor | QR code component</title>
 </svelte:head>
 
 <div class="body">
