@@ -40,6 +40,7 @@
 		border-radius: 1.5rem;
 		box-shadow: 0 12px 50px -6px rgb(0 0 0 / 0.125);
 		padding: 1.2rem;
+		padding-bottom: 3rem;
 		width: 300px;
 	}
 	img {
