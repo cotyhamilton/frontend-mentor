@@ -27,16 +27,29 @@
 			<h1>{country.name.common}</h1>
 			<div class="country-text">
 				<p>
-					<strong>Native Name:</strong>
-					{country.name.nativeName[`${Object.keys(country.name.nativeName)[0]}`].official}
+					{#if country.name.nativeName}
+						<strong>Native Name:</strong>
+						{country.name.nativeName[`${Object.keys(country.name.nativeName)[0]}`].official}
+					{:else}
+						<strong>Official Name:</strong>
+						{country.name.official}
+					{/if}
 				</p>
 				<p><strong>Population:</strong> {country.population}</p>
 				<p><strong>Region:</strong> {country.region}</p>
-				<p><strong>Sub Region:</strong> {country.subregion}</p>
-				<p><strong>Capital:</strong> {country.capital}</p>
+				{#if country.subregion}
+					<p><strong>Sub Region:</strong> {country.subregion}</p>
+				{/if}
+				{#if country.capital}
+					<p><strong>Capital:</strong> {country.capital}</p>
+				{/if}
 				<p><strong>Top Level Domain:</strong> {country.tld}</p>
-				<p><strong>Currencies:</strong> {flattenCurrencies(country.currencies).join(", ")}</p>
-				<p><strong>Languages:</strong> {flattenLanguages(country.languages).join(", ")}</p>
+				{#if country.currencies}
+					<p><strong>Currencies:</strong> {flattenCurrencies(country.currencies).join(", ")}</p>
+				{/if}
+				{#if country.languages}
+					<p><strong>Languages:</strong> {flattenLanguages(country.languages).join(", ")}</p>
+				{/if}
 			</div>
 			{#if country.borders?.length}
 				<p><strong>Border Countries</strong>{country.borders.join(", ")}</p>

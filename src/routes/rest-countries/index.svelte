@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	export async function load({ fetch }) {
-		const res = await fetch("rest-countries/countries.json");
+		const res = await fetch("/rest-countries/countries.json");
 		if (res.ok) {
 			const countries = await res.json();
 			const regions = countries
@@ -21,9 +21,9 @@
 </script>
 
 <script lang="ts">
-	import { goto } from "$app/navigation";
-	export let countries;
-	export let regions;
+	import type { Country } from "$lib/types/country";
+	export let countries: Country[];
+	export let regions: string[];
 </script>
 
 <div class="body">
@@ -37,15 +37,17 @@
 	</div>
 	<div class="countries">
 		{#each countries as country}
-			<div class="country" on:click={() => goto(`rest-countries/countries/${country.name.common}`)}>
-				<img src={country.flags.svg} alt="flag" width="250" />
-				<div class="country-text">
-					<h2>{country.name.common}</h2>
-					<p><strong>Population: </strong>{country.population}</p>
-					<p><strong>Region: </strong>{country.region}</p>
-					<p><strong>Capital: </strong>{country.capital}</p>
+			<a href={`/rest-countries/countries/${country.name.common}`}>
+				<div class="country">
+					<img src={country.flags.svg} alt="flag" width="250" />
+					<div class="country-text">
+						<h2>{country.name.common}</h2>
+						<p><strong>Population: </strong>{country.population}</p>
+						<p><strong>Region: </strong>{country.region}</p>
+						<p><strong>Capital: </strong>{country.capital}</p>
+					</div>
 				</div>
-			</div>
+			</a>
 		{/each}
 	</div>
 </div>
@@ -66,6 +68,11 @@
 		justify-content: space-around;
 		margin: auto;
 		width: 90vw;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
 	}
 
 	.country {
