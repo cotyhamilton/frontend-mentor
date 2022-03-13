@@ -29,11 +29,15 @@ export interface Country {
 	coatOfArms: CoatOfArms;
 	startOfWeek: string;
 	capitalInfo: CapitalInfo;
-	borders?: string[] | null;
+	borders?: Border[] | null;
 	postalCode?: PostalCode | null;
 	cioc?: string | null;
 	gini?: Gini | null;
 	fifa?: string | null;
+}
+export interface Border {
+	name: string;
+	cca3: string;
 }
 export interface Name {
 	common: string;
