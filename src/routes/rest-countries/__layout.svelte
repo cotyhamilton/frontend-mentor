@@ -1,17 +1,21 @@
 <script lang="ts">
-	let theme = "";
+	import { theme } from "$lib/stores/rest-countries/theme";
 
 	const toggleTheme = () => {
-		theme = theme === "" ? "dark" : "";
+		if (!$theme) {
+			theme.setDark();
+		} else {
+			theme.setLight();
+		}
 	};
 </script>
 
-<div class="body {theme}">
+<div class="body {$theme}">
 	<nav>
 		<div class="container">
 			<div class="nav-content">
 				<a href="/rest-countries"><h1>Where in the world?</h1></a>
-				{#if theme === "dark"}
+				{#if $theme === "dark"}
 					<button on:click={toggleTheme}>🌞 Light Mode</button>
 				{:else}
 					<button on:click={toggleTheme}>🌜 Dark Mode</button>
@@ -33,6 +37,7 @@
 		color: var(--text-color);
 		font-family: "Nunito Sans", sans-serif;
 		min-height: 100vh;
+		padding-bottom: 5rem;
 	}
 
 	.container {
