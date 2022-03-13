@@ -27,24 +27,34 @@
 	export let regions: string[];
 
 	let dropdownOpen = false;
-	let filteredCountries = countries;
+	// start with fewer countries, above the fold
+	let filteredCountries = countries.slice(0, 16);
 	let searchParameter = "";
 	let selectedRegion = null;
+	let firstLoad = true;
+	let y;
 
 	const toggleDropdown = () => {
 		dropdownOpen = !dropdownOpen;
 	};
 
 	const filterCountriesBySearch = (value) => {
+		// reset filtered region
 		if (selectedRegion) {
 			selectedRegion = null;
 			if (dropdownOpen) {
 				dropdownOpen = false;
 			}
 		}
+		// reset countries, not on first load
 		if (!value) {
-			filteredCountries = countries;
+			if (!firstLoad) {
+				filteredCountries = countries;
+			}
 		} else {
+			if (firstLoad) {
+				firstLoad = false;
+			}
 			filteredCountries = countries.filter((country) =>
 				country.name.common.toLowerCase().includes(value.toLowerCase())
 			);
@@ -52,16 +62,29 @@
 	};
 
 	const filterCountriesByRegion = (value) => {
+		// reset countries, not on first load
 		if (!value) {
-			filteredCountries = countries;
+			if (!firstLoad) {
+				filteredCountries = countries;
+			}
 		} else {
+			if (firstLoad) {
+				firstLoad = false;
+			}
 			filteredCountries = countries.filter((country) => country.region === value);
 		}
 	};
 
 	$: filterCountriesBySearch(searchParameter);
 	$: filterCountriesByRegion(selectedRegion);
+	// load all countries after first scroll
+	$: if (y && firstLoad) {
+		firstLoad = false;
+		filteredCountries = countries;
+	}
 </script>
+
+<svelte:window bind:scrollY={y} />
 
 <svelte:head>
 	<title>Frontend Mentor | Rest Countries</title>
