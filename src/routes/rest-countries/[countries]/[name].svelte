@@ -18,6 +18,10 @@
 	};
 </script>
 
+<svelte:head>
+	<title>Frontend Mentor | {country.name.common}</title>
+</svelte:head>
+
 <div class="body">
 	<div class="country">
 		<div class="country-flag-container">
@@ -61,8 +65,6 @@
 <style>
 	.country {
 		display: flex;
-		margin: auto;
-		width: 90vw;
 	}
 
 	.country-text-container,
