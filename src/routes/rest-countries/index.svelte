@@ -5,7 +5,8 @@
 			const countries = await res.json();
 			const regions = countries
 				.map((country) => country.region)
-				.filter((value, index, self) => self.indexOf(value) === index);
+				.filter((value, index, self) => self.indexOf(value) === index)
+				.sort();
 			return {
 				props: {
 					countries,
@@ -35,6 +36,12 @@
 	};
 
 	const filterCountriesBySearch = (value) => {
+		if (selectedRegion) {
+			selectedRegion = null;
+			if (dropdownOpen) {
+				dropdownOpen = false;
+			}
+		}
 		if (!value) {
 			filteredCountries = countries;
 		} else {
@@ -63,12 +70,7 @@
 <div class="body">
 	<div class="search-and-filter">
 		<div class="search-container">
-			<input
-				type="search"
-				size="40"
-				placeholder="Search for a country..."
-				bind:value={searchParameter}
-			/>
+			<input type="text" placeholder="Search for a country..." bind:value={searchParameter} />
 			<svg aria-hidden="true" class="search-image" width="18" height="18" viewBox="0 0 18 18"
 				><path
 					fill="#a9a9a9"
@@ -77,11 +79,23 @@
 			>
 		</div>
 		<div>
-			<button class="dropdown-button" on:click={toggleDropdown}> Filter by Region </button>
+			{#if selectedRegion}
+				<button class="dropdown-button" on:click={toggleDropdown}>{selectedRegion}</button>
+			{:else}
+				<button class="dropdown-button" on:click={toggleDropdown}
+					>Filter by Region <span class="down-arrow">&or;</span></button
+				>
+			{/if}
 			{#if dropdownOpen}
 				<ul class="dropdown-list">
 					{#each regions as region}
-						<li class="dropdown-item" on:click={() => (selectedRegion = region)}>{region}</li>
+						{#if selectedRegion === region}
+							<li class="dropdown-item" on:click={() => (selectedRegion = region)}>
+								<strong>{region}</strong>
+							</li>
+						{:else}
+							<li class="dropdown-item" on:click={() => (selectedRegion = region)}>{region}</li>
+						{/if}
 					{/each}
 				</ul>
 			{/if}
@@ -91,10 +105,10 @@
 		{#each filteredCountries as country}
 			<a href={`/rest-countries/countries/${country.name.common}`}>
 				<div class="country">
-					<img src={country.flags.svg} alt="flag" width="250" />
+					<img src={country.flags.svg} alt="flag" height="132" width="250" />
 					<div class="country-text">
 						<h2>{country.name.common}</h2>
-						<p><strong>Population: </strong>{country.population}</p>
+						<p><strong>Population: </strong>{new Intl.NumberFormat().format(country.population)}</p>
 						<p><strong>Region: </strong>{country.region}</p>
 						<p><strong>Capital: </strong>{country.capital}</p>
 					</div>
@@ -116,14 +130,19 @@
 		position: relative;
 	}
 
-	input[type="search"] {
+	input[type="text"] {
+		background-color: var(--element-background-color);
 		box-sizing: border-box;
-		border: 1px solid #ccc;
+		border: none;
 		border-radius: 0.25rem;
-		padding: 12px 20px 12px 4rem;
+		box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+		color: var(--text-color);
+		padding: 15px 20px 15px 4rem;
 		font-size: 16px;
-		outline: none;
 		margin: 0;
+		max-width: 90vw;
+		outline: none;
+		width: 400px;
 	}
 
 	.search-image {
@@ -136,21 +155,30 @@
 	}
 
 	.dropdown-button {
-		background-color: white;
-		border: 1px solid #ccc;
+		background-color: var(--element-background-color);
+		border: none;
 		border-radius: 0.25rem;
+		box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 		box-sizing: border-box;
+		color: var(--text-color);
 		cursor: pointer;
 		font-size: 16px;
 		margin: 2rem 0 0 0;
 		padding: 14px 20px;
+		text-align: start;
 		width: 12rem;
 	}
 
+	.down-arrow {
+		margin-left: 1rem;
+	}
+
 	.dropdown-list {
-		background-color: white;
-		border: 1px solid #ccc;
+		background-color: var(--element-background-color);
+		border: 1px solid var(--element-background-color);
 		border-radius: 0.25rem;
+		box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+		color: var(--text-color);
 		font-size: 16px;
 		padding: 14px 20px;
 		position: absolute;
@@ -159,6 +187,7 @@
 	}
 
 	.dropdown-item {
+		cursor: pointer;
 		list-style: none;
 		padding: 0.125rem 0;
 	}
@@ -166,23 +195,40 @@
 	.countries {
 		display: flex;
 		flex-wrap: wrap;
+		gap: 2rem;
 		justify-content: space-between;
 	}
 
-	a {
+	.countries a {
 		color: inherit;
+		margin: auto;
 		text-decoration: none;
 	}
 
 	.country {
-		background-color: hsl(0, 0%, 100%);
-		border-radius: 0.5rem;
-		margin: 2rem 0;
+		background-color: var(--element-background-color);
+		border-radius: 0.25rem;
+		box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+		margin: 2rem 0 0 0;
 		overflow: hidden;
 		width: 250px;
 	}
 
+	.country img {
+		object-fit: cover;
+	}
+
+	.country-text h2 {
+		font-size: 1.2rem;
+		margin-top: 0.25rem;
+	}
+
+	.country-text p {
+		margin: 0.25rem 0;
+	}
+
 	.country-text {
+		font-size: 0.8rem;
 		padding: 1rem;
 	}
 </style>

@@ -1,12 +1,21 @@
 <script lang="ts">
+	let theme = "";
+
+	const toggleTheme = () => {
+		theme = theme === "" ? "dark" : "";
+	};
 </script>
 
-<div class="body">
+<div class="body {theme}">
 	<nav>
 		<div class="container">
 			<div class="nav-content">
 				<a href="/rest-countries"><h1>Where in the world?</h1></a>
-				<button>🌜 Dark Mode</button>
+				{#if theme === "dark"}
+					<button on:click={toggleTheme}>🌞 Light Mode</button>
+				{:else}
+					<button on:click={toggleTheme}>🌜 Dark Mode</button>
+				{/if}
 			</div>
 		</div>
 	</nav>
@@ -17,8 +26,11 @@
 
 <style>
 	@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap");
+	@import url("/static/rest-countries/stylesheet.css");
+
 	.body {
-		background-color: hsl(0, 0%, 98%);
+		background-color: var(--page-background-color);
+		color: var(--text-color);
 		font-family: "Nunito Sans", sans-serif;
 		min-height: 100vh;
 	}
@@ -29,7 +41,8 @@
 	}
 
 	nav {
-		background-color: white;
+		background-color: var(--element-background-color);
+		box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 	}
 
 	.nav-content {
@@ -40,5 +53,13 @@
 	a {
 		color: inherit;
 		text-decoration: none;
+	}
+
+	button {
+		background-color: var(--element-background-color);
+		border: none;
+		color: var(--text-color);
+		cursor: pointer;
+		font-size: 1rem;
 	}
 </style>
