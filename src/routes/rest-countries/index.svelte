@@ -127,7 +127,7 @@
 	</div>
 	<div class="countries" in:fly={{ y: -5, duration: 500 }}>
 		{#each filteredCountries as country}
-			<a href={`/rest-countries/countries/${country.name.common}`}>
+			<a href={`/rest-countries/countries/${country.cca3}`}>
 				<div class="country">
 					<img src={country.flags.svg} alt="flag" height="132" width="250" />
 					<div class="country-text">
