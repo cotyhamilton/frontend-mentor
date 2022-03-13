@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fly } from "svelte/transition";
 	import type { Country, Currencies, Languages } from "$lib/types/country";
 	export let country: Country;
 
@@ -26,7 +27,7 @@
 	<a href="/rest-countries">
 		<button class="back-button"><span class="back-arrow">←</span>Back</button>
 	</a>
-	<div class="country">
+	<div class="country" in:fly={{ y: -5, duration: 500 }}>
 		<div class="country-flag-container">
 			<img src={country.flags.svg} alt="flag" />
 		</div>

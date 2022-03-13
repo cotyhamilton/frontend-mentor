@@ -22,6 +22,7 @@
 </script>
 
 <script lang="ts">
+	import { fly } from "svelte/transition";
 	import type { Country } from "$lib/types/country";
 	export let countries: Country[];
 	export let regions: string[];
@@ -124,7 +125,7 @@
 			{/if}
 		</div>
 	</div>
-	<div class="countries">
+	<div class="countries" in:fly={{ y: -5, duration: 500 }}>
 		{#each filteredCountries as country}
 			<a href={`/rest-countries/countries/${country.name.common}`}>
 				<div class="country">
