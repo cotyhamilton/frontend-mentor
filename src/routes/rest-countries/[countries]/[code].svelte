@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto } from "$app/navigation";
 	import { fly } from "svelte/transition";
 	import type { Country, Currencies, Languages } from "$lib/types/country";
 	export let country: Country;
@@ -29,7 +29,9 @@
 </svelte:head>
 
 <div class="body">
-	<button class="back-button" on:click={() => window.history.back()}><span class="back-arrow">←</span>Back</button>
+	<button class="back-button" on:click={() => window.history.back()}
+		><span class="back-arrow">←</span>Back</button
+	>
 	{#if !country.status}
 		<div class="country" in:fly={{ y: -5, duration: 500 }}>
 			<div class="country-flag-container">
