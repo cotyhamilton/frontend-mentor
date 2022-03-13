@@ -51,7 +51,7 @@
 	}
 
 	a {
-		color: inherit;
+		color: var(--text-color);
 		text-decoration: none;
 	}
 
