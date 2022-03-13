@@ -125,7 +125,7 @@
 		box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 		border-radius: 0.25rem;
 		display: inline-block;
-		margin: 0 0.25rem;
+		margin: 0.25rem 0.25rem;
 		padding: 0.25rem 1rem;
 	}
 </style>
