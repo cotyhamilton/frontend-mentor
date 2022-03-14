@@ -29,7 +29,7 @@
 
 	let dropdownOpen = false;
 	// start with fewer countries, above the fold
-	let filteredCountries = countries.slice(0, 16);
+	let filteredCountries = countries.slice(0, 250); // not really, will fix l8r
 	let searchParameter = "";
 	let selectedRegion = null;
 	let firstLoad = true;
